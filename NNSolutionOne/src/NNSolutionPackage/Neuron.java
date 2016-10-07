@@ -17,8 +17,10 @@ public class Neuron {
 
     private int index = 0;
     private ArrayList<Neuron> inputList = new ArrayList();
-    private ArrayList<Float> weightList = new ArrayList();
-    private ArrayList<Float> addedWeightList = new ArrayList();
+    public ArrayList<Float> weightList = new ArrayList();
+    public ArrayList<Float> addedWeightList = new ArrayList();
+    public ArrayList<Float> changedWeightList = new ArrayList();
+    public ArrayList<Float> tempWeightList = new ArrayList();
     public float ifInput;
     public float output;
     private float bias =  (float) 0.0;
@@ -59,15 +61,15 @@ public class Neuron {
         }
     }
 
-    public void calculateOutput(boolean isItFinal) {
+    public void calculateOutput(boolean isItFinal, ArrayList<Float> weightList) {
         
        
 
         if (isItFinal) {
-            float result = this.addedWeightList.get(this.addedWeightList.size() - 1); //utolsó elem a bias
+            float result = weightList.get(weightList.size() - 1); //utolsó elem a bias
             float additive = 0;
             for (int i = 0; i < this.inputList.size(); i++) {
-                additive = additive + (this.inputList.get(i).output * this.addedWeightList.get(i));
+                additive = additive + (this.inputList.get(i).output * weightList.get(i));
             }
             result = result + additive;
           
@@ -77,10 +79,10 @@ public class Neuron {
 
         } else {
 
-            float result = this.addedWeightList.get(this.addedWeightList.size() - 1); //utolsó elem a bias
+            float result = weightList.get(weightList.size() - 1); //utolsó elem a bias
             float additive = 0;
             for (int i = 0; i < this.inputList.size(); i++) {
-                additive = additive + (this.inputList.get(i).output * this.addedWeightList.get(i));
+                additive = additive + (this.inputList.get(i).output * weightList.get(i));
             }
             result = result + additive;
            
@@ -95,6 +97,11 @@ public class Neuron {
 
         }
 
+    }
+    
+    public void setWeightList(ArrayList<Float> temp)
+    {
+        this.weightList = temp;
     }
 
 }

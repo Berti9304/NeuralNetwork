@@ -50,26 +50,7 @@ public class Architecture {
     
     public void writeOutput(ArrayList<Float> inputs)
     {
-         DecimalFormat tv = new DecimalFormat();
-           for(int j=0; j<this.layers.get(0).size(); j++)
-           {
-               
-                   layers.get(0).get(j).output = inputs.get(j); //BEMENETI RÉTEG
-           }
-           
-           for(int i=1; i<this.layers.size(); i++)
-           {
-               for(int j=0; j<this.layers.get(i).size(); j++)
-               {
-                   if(i != this.layers.size()-1)
-                   {
-                       this.layers.get(i).get(j).calculateOutput(false);  //KÖZTES RÉTEG
-                   }
-                   else{
-                       this.layers.get(i).get(j).calculateOutput(true); //KIMENETI RÉTEG
-                   }
-               }
-           }
+         calculateAllOutputs(inputs);
            
            for(int i=0; i<this.layers.get(this.layers.size()-1).size();i++)
            {
@@ -91,6 +72,57 @@ public class Architecture {
        
        
        
+        
+    }
+    
+    public void nullifyLayerWeight(int i)
+    {
+        for(int j=0; j<this.layers.get(i).size(); j++)
+        {
+            ArrayList<Float> tempWeightList =  new ArrayList();
+            for(int k=0;k<this.layers.get(i).get(j).getWeightList().size();k++)
+            {
+                tempWeightList.add((float)0);
+            }
+            this.layers.get(i).get(j).setWeightList(tempWeightList);
+        }
+    }
+    
+    public void calculateAllOutputs(ArrayList<Float> inputs){
+    
+           for(int j=0; j<this.layers.get(0).size(); j++)
+           {
+               
+                   layers.get(0).get(j).output = inputs.get(j); //BEMENETI RÉTEG
+           }
+           
+           for(int i=1; i<this.layers.size(); i++)
+           {
+               for(int j=0; j<this.layers.get(i).size(); j++)
+               {
+                   if(i != this.layers.size()-1)
+                   {
+                       this.layers.get(i).get(j).calculateOutput(false,this.layers.get(i).get(j).addedWeightList);  //KÖZTES RÉTEG
+                   }
+                   else{
+                       this.layers.get(i).get(j).calculateOutput(true,this.layers.get(i).get(j).addedWeightList); //KIMENETI RÉTEG
+                   }
+               }
+           }
+    }
+    
+    public void changeWeightList(ArrayList<Float> inputs)
+    {
+        calculateAllOutputs(inputs);
+        for(int i=1;i<this.layers.size();i++)
+        {
+            nullifyLayerWeight(i);
+            for(int j=0; j<this.layers.get(i).size(); j++)
+            {
+                
+                
+            }
+        }
         
     }
 
