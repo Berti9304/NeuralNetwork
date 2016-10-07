@@ -67,7 +67,15 @@ public class Architecture {
 
     public void nullifyLayerWeight(int layer) {
         for (int i = 1; i < this.layers.size(); i++) {
-            if (i == layer) {
+          
+            if(i<layer)
+            {
+                for(int j=0; j<this.layers.get(i).size();j++)
+                {
+                    this.layers.get(i).get(j).tempWeightList = this.layers.get(i).get(j).addedWeightList;
+                }
+            }
+            else if(i == layer) {
                 for (int j = 0; j < this.layers.get(i).size(); j++) {
                     ArrayList<Float> tempWeightList = new ArrayList();
                     for (int k = 0; k < this.layers.get(i).get(j).addedWeightList.size(); k++) {
@@ -76,10 +84,16 @@ public class Architecture {
                     this.layers.get(i).get(j).tempWeightList = tempWeightList;
 
                 }
+                
             } else {
-                for(int j=0; j<this.layers.get(i).size(); j++)
-                {
-                    this.layers.get(i).get(j).tempWeightList = this.layers.get(i).get(j).addedWeightList;
+                 for (int j = 0; j < this.layers.get(i).size(); j++) {
+                    ArrayList<Float> tempWeightList = new ArrayList();
+                    for (int k = 0; k < this.layers.get(i).get(j).addedWeightList.size()-1; k++) {
+                        tempWeightList.add(this.layers.get(i).get(j).addedWeightList.get(k));
+                    }
+                    tempWeightList.add((float) 0.0);
+                    this.layers.get(i).get(j).tempWeightList = tempWeightList;
+
                 }
 
             }
