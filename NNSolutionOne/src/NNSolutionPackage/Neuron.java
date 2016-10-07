@@ -16,7 +16,7 @@ import java.util.Random;
 public class Neuron {
 
     private int index = 0;
-    private ArrayList<Neuron> inputList = new ArrayList();
+    public ArrayList<Neuron> inputList = new ArrayList();
     public ArrayList<Float> weightList = new ArrayList();
     public ArrayList<Float> addedWeightList = new ArrayList();
     public ArrayList<Float> changedWeightList = new ArrayList();
@@ -43,13 +43,13 @@ public class Neuron {
         return weightList;
     }
 
-    public void writeOutWeightList() {
+    public void writeOutWeightList(ArrayList<Float> weightList) {
         String newLine = System.getProperty("line.separator");
-        for (int i = 0; i < this.weightList.size(); i++) {
-            if (i == this.weightList.size() - 1) {
-                System.out.print(this.weightList.get(i));
+        for (int i = 0; i < weightList.size(); i++) {
+            if (i == weightList.size() - 1) {
+                System.out.print(weightList.get(i));
             } else {
-                System.out.print(this.weightList.get(i) + ",");
+                System.out.print(weightList.get(i) + ",");
             }
         }
         System.out.print(newLine);
@@ -61,15 +61,15 @@ public class Neuron {
         }
     }
 
-    public void calculateOutput(boolean isItFinal, ArrayList<Float> weightList) {
+    public void calculateOutput(boolean isItFinal, ArrayList<Float> weight) {
         
        
 
         if (isItFinal) {
-            float result = weightList.get(weightList.size() - 1); //utolsó elem a bias
+            float result = weight.get(weight.size() - 1); //utolsó elem a bias
             float additive = 0;
             for (int i = 0; i < this.inputList.size(); i++) {
-                additive = additive + (this.inputList.get(i).output * weightList.get(i));
+                additive = additive + (this.inputList.get(i).output * weight.get(i));
             }
             result = result + additive;
           
@@ -79,10 +79,10 @@ public class Neuron {
 
         } else {
 
-            float result = weightList.get(weightList.size() - 1); //utolsó elem a bias
+            float result = weight.get(weight.size() - 1); //utolsó elem a bias
             float additive = 0;
             for (int i = 0; i < this.inputList.size(); i++) {
-                additive = additive + (this.inputList.get(i).output * weightList.get(i));
+                additive = additive + (this.inputList.get(i).output * weight.get(i));
             }
             result = result + additive;
            
